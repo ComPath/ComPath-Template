@@ -141,6 +141,23 @@ class Manager(object):
         """
         return self.session.query(Protein).filter(Protein.id == identifier).one_or_none()
 
+    def get_or_create_protein(self, hgnc_symbol):
+        """Gets an protein from the database or creates it
+        :param Optional[str] hgnc_symbol: name of the pathway
+        :rtype: Protein
+        """
+        protein = self.get_protein_by_hgnc_symbol(hgnc_symbol)
+
+        if protein is not None:
+            return protein
+
+        protein = Protein(
+            hgnc_symbol=hgnc_symbol,
+        )
+        self.session.add(protein)
+
+        return protein
+
     def get_protein_by_hgnc_symbol(self, hgnc_symbol):
         """Gets a protein by its hgnc symbol
 
@@ -157,7 +174,8 @@ class Manager(object):
         :param Optional[str] url: url from pathway table file
         """
 
-        pathways_dict = parse_pathways(df)
+        # TODO: add here your parser for the pathway model
+        pathways_dict = ...
 
         for id, name in tqdm(pathways_dict.items(), desc='Loading pathways'):
             pathway = self.get_or_create_pathway(pathway_name=name)
@@ -170,7 +188,16 @@ class Manager(object):
         :param Optional[str] url: url from protein to pathway file
         """
 
-        NotImplemented
+        # TODO: add here your parser for the protein model
+
+        protein_pathway_dict = ...
+
+        for hgnc_symbol, pathway_name in tqdm(protein_pathway_dict, desc='Loading proteins'):
+            protein = self.get_or_create_protein(hgnc_symbol=hgnc_symbol)
+
+            pathway = self.get_pathway_by_name(pathway_name)
+
+            protein.pathways.append(pathway)
 
         self.session.commit()
 
