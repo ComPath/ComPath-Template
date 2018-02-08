@@ -5,13 +5,8 @@ This module populates the tables
 """
 
 import logging
-from multiprocessing.pool import ThreadPool
 
-import requests
 from bio2bel.utils import get_connection
-from bio2bel_hgnc.manager import Manager as HgncManager
-from pybel.constants import PART_OF, FUNCTION, PROTEIN, BIOPROCESS, NAMESPACE, NAME
-from pybel.struct.graph import BELGraph
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from tqdm import tqdm
@@ -85,6 +80,28 @@ class Manager(object):
         """
         return self.session.query(Pathway).filter(Pathway.name == pathway_name).one_or_none()
 
+    def get_all_pathways(self):
+        """Gets all pathways stored in the database
+
+        :rtype: list[Pathway]
+        """
+        return self.session.query(Pathway).all()
+
+    def get_pathway_size_distribution(self):
+        """Returns pathway sizes
+
+        :rtype: list
+        :return: pathway sizes
+        """
+
+        pathways = self.get_all_pathways()
+
+        return [
+            len(pathway.proteins)
+            for pathway in pathways
+            if pathway.proteins
+        ]
+
     def query_pathway_by_name(self, query, limit=None):
         """Returns all pathways having the query in their names
 
@@ -124,7 +141,6 @@ class Manager(object):
         """
         return self.session.query(Protein).filter(Protein.id == identifier).one_or_none()
 
-
     def get_protein_by_hgnc_symbol(self, hgnc_symbol):
         """Gets a protein by its hgnc symbol
 
@@ -132,7 +148,6 @@ class Manager(object):
         :rtype: Optional[Protein]
         """
         return self.session.query(Protein).filter(Protein.hgnc_symbol == hgnc_symbol).one_or_none()
-
 
     """Methods to populate the DB"""
 
