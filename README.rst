@@ -18,4 +18,4 @@ The template contains the following modules:
 
 - constants.py: Contain the constants needed for the package such as name, or URLs from the pathway database RESTful APi.
 
-All modules described above contain the minimum methods for their compatibility with ComPath. A list of 'TODOs' is included within each package stating what needs to be added.
+All modules described above contain the minimum methods for their compatibility with ComPath. A list of 'TODOs' is included within each package stating what needs to be added. Furthermore, the 'example' module outlines a parser example.

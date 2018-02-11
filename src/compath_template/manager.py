@@ -174,7 +174,7 @@ class Manager(object):
         :param Optional[str] url: url from pathway table file
         """
 
-        # TODO: add here your parser for the pathway model
+        # TODO: add here your parser for the pathway model (see example.py)
         pathways_dict = ...
 
         for id, name in tqdm(pathways_dict.items(), desc='Loading pathways'):
@@ -188,7 +188,7 @@ class Manager(object):
         :param Optional[str] url: url from protein to pathway file
         """
 
-        # TODO: add here your parser for the protein model
+        # TODO: add here your parser for the protein model (see example.py)
 
         protein_pathway_dict = ...
 
