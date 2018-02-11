@@ -17,3 +17,5 @@ The template contains the following modules:
 - cli.py: Defines all commands to manage the package. By default, we have defined the 'populate' and drop' commands that correspondingly load and erase the database.
 
 - constants.py: Contain the constants needed for the package such as name, or URLs from the pathway database RESTful APi.
+
+All modules described above contain the minimum methods for their compatibility with ComPath. A list of 'TODOs' is included within each package stating what needs to be added.
