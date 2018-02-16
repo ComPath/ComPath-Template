@@ -28,7 +28,7 @@ class Pathway(Base):
 
     id = Column(Integer, primary_key=True)
 
-    name = Column(String(255), doc='pathway name')
+    name = Column(String(255), unique=True, index=True, nullable=False, doc='pathway name')
 
     proteins = relationship(
         'Protein',
@@ -47,7 +47,7 @@ class Protein(Base):
 
     id = Column(Integer, primary_key=True)
 
-    hgnc_symbol = Column(String(255), doc='hgnc symbol of the protein')
+    hgnc_symbol = Column(String(255), unique=True, index=True, nullable=False, doc='hgnc symbol of the protein')
 
     def __repr__(self):
         return self.hgnc_symbol

@@ -135,7 +135,7 @@ class Manager(object):
         :param str pathway_name: pathway ame
         :rtype: Pathway
         """
-        pathway = self.get_pathway_by_id(pathway_name)
+        pathway = self.get_pathway_by_name(pathway_name)
 
         if pathway is None:
             pathway = Pathway(
@@ -155,18 +155,16 @@ class Manager(object):
 
     def get_or_create_protein(self, hgnc_symbol):
         """Gets an protein from the database or creates it
-        :param Optional[str] hgnc_symbol: name of the pathway
+        :param Optional[str] hgnc_symbol: name of the protein
         :rtype: Protein
         """
         protein = self.get_protein_by_hgnc_symbol(hgnc_symbol)
 
-        if protein is not None:
-            return protein
-
-        protein = Protein(
-            hgnc_symbol=hgnc_symbol,
-        )
-        self.session.add(protein)
+        if protein is None:
+            protein = Protein(
+                hgnc_symbol=hgnc_symbol,
+            )
+            self.session.add(protein)
 
         return protein
 
