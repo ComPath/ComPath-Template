@@ -1,27 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import logging
-from compath_template.constants import MODULE_NAME
-from pkg_resources import VersionConflict, iter_entry_points
-
-log = logging.getLogger(__name__)
-
-managers = {}
-
-for entry_point in iter_entry_points(group=MODULE_NAME, name=None):
-    entry = entry_point.name
-
-    try:
-        bio2bel_module = entry_point.load()
-    except VersionConflict:
-        log.warning('Version conflict in %s', entry)
-        continue
-
-    try:
-        managers[entry] = bio2bel_module.Manager
-    except Exception:
-        log.warning('%s does not have a top-level Manager class', entry)
-        continue
 
 __version__ = '0.0.1-dev'
 
