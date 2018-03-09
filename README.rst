@@ -1,7 +1,7 @@
 ComPath Template Package
 ========================
 
-A template package for integrating new pathway databases to ComPath. 
+A template package for integrating new pathway databases to `ComPath <https://github.com/compath/compath>`_. 
 
 Package Structure
 -----------------
@@ -18,4 +18,4 @@ The template contains the following modules:
 
 - constants.py: Contain the constants needed for the package such as name, or URLs from the pathway database RESTful APi.
 
-All modules described above contain the minimum methods for their compatibility with ComPath. A list of 'TODOs' is included within each package stating what needs to be added. Furthermore, the 'example' module outlines a parser example.
+All modules described above contain the minimum methods for their compatibility with `ComPath <https://github.com/compath/compath>`_. A list of 'TODOs' is included within each package stating what needs to be added. Furthermore, the 'example' module outlines a parser example. A mature example of a ComPath template would be `ComPath HGNC <https://github.com/compath/compath_hgnc>`_.
