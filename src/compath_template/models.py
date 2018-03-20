@@ -39,6 +39,16 @@ class Pathway(Base):
     def __repr__(self):
         return self.name
 
+    def get_gene_set(self):
+        """Returns the genes associated with the pathway (gene set). Note this function restricts to HGNC symbols genes
+
+        :rtype: set[compath_template.models.Protein]
+        """
+        return {
+            protein
+            for protein in self.proteins
+            if protein.hgnc_symbol
+        }
 
 class Protein(Base):
     """Genes Table"""

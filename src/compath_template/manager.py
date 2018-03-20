@@ -5,11 +5,13 @@ This module populates the tables
 """
 
 import logging
+import itertools as itt
 
 from bio2bel.utils import get_connection
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from tqdm import tqdm
+from collections import Counter
 
 from .constants import MODULE_NAME
 from .models import Base, Pathway, Protein
@@ -55,6 +57,40 @@ class Manager(object):
     """Custom query methods"""
 
     def query_gene_set(self, gene_set):
+        """Returns pathway counter dictionary
+
+        :param list[str] gene_set: gene set to be queried
+        :rtype: dict[str,dict]]
+        :return: Enriched pathways with mapped pathways/total
+        """
+        proteins = self._query_proteins_in_hgnc_list(gene_set)
+
+        pathways_lists = [
+            protein.get_pathways_ids()
+            for protein in proteins
+        ]
+
+        # Flat the pathways lists and applies Counter to get the number matches in every mapped pathway
+        pathway_counter = Counter(itt.chain(*pathways_lists))
+
+        enrichment_results = dict()
+
+        for pathway_id, proteins_mapped in pathway_counter.items():
+            pathway = self.get_pathway_by_id(pathway_id)
+
+            pathway_gene_set = pathway.get_gene_set()  # Pathway gene set
+
+            enrichment_results[pathway.neurommsig_id] = {
+                "pathway_id": pathway.neurommsig_id,
+                "pathway_name": pathway.name,
+                "mapped_proteins": proteins_mapped,
+                "pathway_size": len(pathway_gene_set),
+                "pathway_gene_set": pathway_gene_set,
+            }
+
+        return enrichment_results
+
+    def _query_proteins_in_hgnc_list(self, gene_set):
         """Returns Proteins within the gene set
 
         :param gene_set: set of gene symbols
