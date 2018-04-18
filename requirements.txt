@@ -1,4 +1,5 @@
 click
-bio2bel
+compath_utils
+bio2bel>=0.0.7
 sqlalchemy==1.1.15
 tqdm
