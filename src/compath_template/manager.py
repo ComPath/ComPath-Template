@@ -35,7 +35,7 @@ class Manager(CompathManager):
     pathway_model_identifier_column = Pathway.id
 
     @property
-    def base(self):
+    def _base(self):
         return Base
 
     """Custom query methods"""
